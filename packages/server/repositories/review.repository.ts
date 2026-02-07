@@ -10,6 +10,7 @@ const adapter = new PrismaMariaDb({
    connectionLimit: 5,
 });
 const prisma = new PrismaClient({ adapter });
+
 export const reviewRepository = {
    async getReviews(productId: number, limit?: number): Promise<Review[]> {
       return prisma.review.findMany({
@@ -34,6 +35,12 @@ export const reviewRepository = {
          where: { productId },
          create: data,
          update: data,
+      });
+   },
+
+   getReviewSummary(productId: number) {
+      return prisma.summary.findUnique({
+         where: { productId },
       });
    },
 };
